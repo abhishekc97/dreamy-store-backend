@@ -24,8 +24,9 @@ route.get("/getProducts/:category", async function(req, res, next) {
         const category = req.params.category;
         if(!category) res.status(400).send("Bad request, check given parameters");
 
-        const results = await Product.find({ category: { $in: [category]}})
-
+        // const results = await Product.find({ category: { $in: [category]}});
+        const results = await Product.find({ category: { $in: [new RegExp(`^${category}$`, "i")] }});
+        if(results) console.log(results);
         res.send(results);
         
     } catch (error) {
