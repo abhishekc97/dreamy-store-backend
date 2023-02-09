@@ -19,15 +19,63 @@ route.get("/getCategories", async function(req, res, next) {
 });
 
 // get a list of all products
-route.get("/getProducts/:category", async function(req, res, next) {
+route.get("/getProducts", async function(req, res, next) {
     try {
-        const category = req.params.category;
+        const category = req.query.category;
         if(!category) res.status(400).send("Bad request, check given parameters");
 
+        const brand = req.query.brand;
+        const color = req.query.color;
+        const price = req.query.price;
+        const freeshipping = req.query.freeshipping;
+
+        const query = {};
+        if(category) {
+            query.category = { $in: [new RegExp(`^${category}$`, "i")] };
+        }
+        if(brand) {
+            query.brand = { $in: [new RegExp(`^${brand}$`, "i")] } ;
+        }
+        if(color) {
+            query.colors = { $in: [new RegExp(`^${color}$`, "i")]};
+        }
+        if(price) {
+            query.price = { $lte: price};
+        }
+        if(freeshipping) {
+            query.freeshipping = freeshipping;
+        }
+        console.log(query);
+
         // const results = await Product.find({ category: { $in: [category]}});
-        const results = await Product.find({ category: { $in: [new RegExp(`^${category}$`, "i")] }});
-        if(results) console.log(results);
-        res.send(results);
+        // const results = await Product.find({ category: { $in: [new RegExp(`^${category}$`, "i")] }});
+        if(category === "all") {
+            const queryAll = {};
+            
+            if(brand) {
+                queryAll.brand = { $in: [new RegExp(`^${brand}$`, "i")] } ;
+            }
+            if(color) {
+                queryAll.colors = { $in: [new RegExp(`^${color}$`, "i")]};
+            }
+            if(price) {
+                queryAll.price = { $lte: price};
+            }
+            if(freeshipping) {
+                queryAll.freeshipping = freeshipping;
+            }
+            console.log("queryall", queryAll);
+
+            const results = await Product.find(queryAll);
+            
+            console.log(results);
+            res.json(results);
+        } else {
+            const results = await Product.find(query);
+
+            console.log(results);
+            res.json(results);
+        }
         
     } catch (error) {
         next(error);

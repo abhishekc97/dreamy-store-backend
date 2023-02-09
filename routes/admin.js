@@ -47,6 +47,7 @@ route.post("/createProduct", async function(req, res, next) {
         const reviews = req.body.reviews;
         const averageRating = req.body.averageRating;
         const availableUnits = req.body.availableUnits;
+        const freeshipping = req.body.freeshipping;
         const sku = req.body.sku;
         const url = req.body.url;
 
@@ -62,6 +63,7 @@ route.post("/createProduct", async function(req, res, next) {
             reviews: reviews,
             averageRating: averageRating,
             availableUnits: availableUnits,
+            freeshipping: freeshipping,
             sku: sku,
             url: url,
         }
