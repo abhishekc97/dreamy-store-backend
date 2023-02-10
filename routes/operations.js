@@ -3,6 +3,8 @@ const route = Router();
 
 const Category = require("../models/Category");
 const Product = require("../models/Product");
+const Brand = require("../models/Brand");
+const Color = require("../models/Color");
 
 // get a list of all categories
 route.get("/getCategories", async function(req, res, next) {
@@ -77,6 +79,34 @@ route.get("/getProducts", async function(req, res, next) {
             res.json(results);
         }
         
+    } catch (error) {
+        next(error);
+        console.log(error);
+    }
+});
+
+// get a list of all brands
+route.get("/getBrands", async function(req, res, next) {
+    try {
+        const results = await Brand.find({});
+
+        if(results) {
+            res.status(200).send(results);
+        }
+    } catch (error) {
+        next(error);
+        console.log(error);
+    }
+});
+
+// get a list of all colors
+route.get("/getColors", async function(req, res, next) {
+    try {
+        const results = await Color.find({});
+
+        if(results) {
+            res.status(200).send(results);
+        }
     } catch (error) {
         next(error);
         console.log(error);

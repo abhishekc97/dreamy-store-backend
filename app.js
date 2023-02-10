@@ -15,7 +15,7 @@ app.use(cors());
 initializeDatabase();
 
 app.listen(port, function(req, res) {
-    console.log(`Express server started at https://${host}:${port}`);
+    console.log(`Express server started at http://${host}:${port}`);
 });
 
 app.get("/", function(req, res) {
