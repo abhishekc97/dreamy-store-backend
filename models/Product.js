@@ -13,7 +13,7 @@ const productSchema = new mongoose.Schema(
         reviews: {type: Array, default: []},
         averageRating: {type: Number},
         availableUnits: {type: Number},
-        freeshipping: { type: String},
+        freeshipping: { type: Boolean},
         sku: {type: String},
         url: { type: String}
     },
